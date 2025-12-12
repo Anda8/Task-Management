@@ -1,11 +1,10 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400; 
+  font-weight: 400;
 }
 *,
 *::before,
@@ -13,10 +12,9 @@
   box-sizing: border-box;
 }
 * {
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
-
 }
 h1 {
   font-size: 3.2em;
@@ -26,9 +24,8 @@ h1 {
 button:focus,
 button:focus-visible {
   outline: 1px auto inherit;
-
 }
-::selection{
-  background-color:#6B1000;
-  color:white;
+::selection {
+  background-color: #940863;
+  color: white;
 }

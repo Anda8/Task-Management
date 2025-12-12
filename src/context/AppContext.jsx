@@ -49,10 +49,22 @@ export const AppContext = createContext({
   dispatch: () => {},
 });
 
-
 export function AppProvider({ children, baseUrl }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // 1️⃣ استرجاع البيانات من localStorage عند البداية
+  useEffect(() => {
+    const saved = localStorage.getItem("taskapp_state_v1");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      dispatch({
+        type: "SET_DATA",
+        payload: { projects: parsed.projects, tasks: parsed.tasks },
+      });
+    }
+  }, []);
+
+  // 2️⃣ تحميل البيانات من API (لو localStorage فاضية أو للتحديث)
   useEffect(() => {
     let active = true;
     (async () => {
@@ -63,7 +75,18 @@ export function AppProvider({ children, baseUrl }) {
           getTasks(baseUrl),
         ]);
         if (!active) return;
-        dispatch({ type: "SET_DATA", payload: { projects, tasks } });
+
+        // لو فيه بيانات محفوظة في localStorage نقدر نخليها أولوية
+        const saved = localStorage.getItem("taskapp_state_v1");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          dispatch({
+            type: "SET_DATA",
+            payload: { projects: parsed.projects, tasks: parsed.tasks },
+          });
+        } else {
+          dispatch({ type: "SET_DATA", payload: { projects, tasks } });
+        }
       } catch (err) {
         if (!active) return;
         dispatch({ type: "SET_ERROR", payload: err.message });
@@ -74,7 +97,7 @@ export function AppProvider({ children, baseUrl }) {
     };
   }, [baseUrl]);
 
-  // (Optional) persist to localStorage:
+  // 3️⃣ حفظ كل تعديل على localStorage
   useEffect(() => {
     if (!state.loading && !state.error) {
       localStorage.setItem(
