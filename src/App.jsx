@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import TasksPage from "./pages/TasksPage";
 import { AppContext } from "./context/AppContext.jsx";
+import AddProject from "./pages/AddProject";
+
 
 function App() {
   const { state } = useContext(AppContext);
@@ -23,6 +25,7 @@ function App() {
     <Router>
       <div className="flex flex-col min-h-screen">
         <Routes>
+          
           {/* Dashboard مع Navbar */}
           <Route
             path="/"
@@ -30,6 +33,15 @@ function App() {
               <div className="flex flex-col flex-1">
                 <Navbar />
                 <Dashboard />
+              </div>
+            }
+          />
+          <Route
+            path="/add-project"
+            element={
+              <div className="flex flex-col flex-1">
+                <Navbar />
+                <AddProject />
               </div>
             }
           />

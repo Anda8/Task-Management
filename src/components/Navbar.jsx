@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
   return (
     <nav
@@ -10,12 +12,16 @@ export default function Navbar() {
       >
         TaskFlow
       </div>
-      <button
-        className="hover:bg-purple-800 px-4 py-2 rounded text-sm"
-        style={{ backgroundColor: "#6D28D9", color: "#F5F3FF" }}
-      >
-        Add Project
-      </button>
+
+      <Link to="/add-project">
+        <button
+          className="hover:bg-purple-800 px-4 py-2 rounded text-sm"
+          style={{ backgroundColor: "#6D28D9", color: "#F5F3FF" }}
+        >
+          Add Project
+        </button>
+      </Link>
     </nav>
   );
 }
+
