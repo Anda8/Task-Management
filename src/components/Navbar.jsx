@@ -1,27 +1,57 @@
+// src/components/Navbar.jsx
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 export default function Navbar() {
+  const { state, dispatch } = useContext(AppContext);
+  const { isDarkMode } = state;
+
+  const toggleDarkMode = () => {
+    dispatch({ type: "TOGGLE_DARK_MODE" });
+  };
+
   return (
     <nav
-      className="text-white px-6 py-4 flex justify-between items-center flex-none"
-      style={{ backgroundColor: "#7E3AF2" }}
+      // 💡 أنماط الوضع الداكن للشريط بالكامل
+      className={`px-6 py-4 flex justify-between items-center flex-none ${
+        isDarkMode ? 'bg-gray-800 text-white' : 'bg-purple-700 text-white'
+      }`}
     >
       <div
-        className="flex items-center gap-2 font-bold text-xl"
-        style={{ color: "#F5F3FF" }}
+        className={`flex items-center gap-2 font-bold text-xl ${
+          isDarkMode ? 'text-purple-400' : 'text-purple-100'
+        }`}
       >
         TaskFlow
       </div>
 
-      <Link to="/add-project">
+      <div className="flex items-center gap-4">
+        {/* 💡 زر تبديل الوضع الداكن */}
         <button
-          className="hover:bg-purple-800 px-4 py-2 rounded text-sm"
-          style={{ backgroundColor: "#6D28D9", color: "#F5F3FF" }}
+          onClick={toggleDarkMode}
+          className={`px-3 py-1 rounded text-sm transition-colors duration-200 ${
+            isDarkMode
+              ? 'bg-purple-600 hover:bg-purple-700 text-white'
+              : 'bg-purple-500 hover:bg-purple-600 text-white'
+          }`}
         >
-          Add Project
+          {isDarkMode ? '🌞 Light Mode' : '🌙 Dark Mode'}
         </button>
-      </Link>
+
+        <Link to="/add-project">
+          <button
+            // 💡 أنماط الوضع الداكن لزر Add Project
+            className={`px-4 py-2 rounded text-sm transition-colors duration-200 ${
+              isDarkMode
+                ? 'bg-purple-500 hover:bg-purple-600 text-white'
+                : 'bg-purple-800 hover:bg-purple-900 text-purple-100'
+            }`}
+          >
+            Add Project
+          </button>
+        </Link>
+      </div>
     </nav>
   );
 }
-

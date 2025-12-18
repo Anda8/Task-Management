@@ -1,3 +1,4 @@
+// src/App.jsx
 import { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -7,26 +8,30 @@ import Dashboard from "./pages/Dashboard";
 import TasksPage from "./pages/TasksPage";
 import { AppContext } from "./context/AppContext.jsx";
 import AddProject from "./pages/AddProject";
-
+import AddTask from "./pages/AddTask";
 
 function App() {
   const { state } = useContext(AppContext);
 
   if (state.loading) {
-    return <div className="p-8 text-center">Loading...</div>;
+    // أنماط الوضع الداكن لصفحة التحميل
+    return <div className={`p-8 text-center ${state.isDarkMode ? 'bg-gray-900 text-white' : 'bg-purple-50'}`}>Loading...</div>;
   }
   if (state.error) {
+    // أنماط الوضع الداكن لصفحة الخطأ
     return (
-      <div className="p-8 text-center text-red-600">Error: {state.error}</div>
+      <div className={`p-8 text-center text-red-600 ${state.isDarkMode ? 'bg-gray-900' : 'bg-purple-50'}`}>
+        Error: {state.error}
+      </div>
     );
   }
 
+  // 💡 التعديل: إضافة الكلاس dark بناءً على حالة isDarkMode
   return (
     <Router>
-      <div className="flex flex-col min-h-screen">
+      <div className={`flex flex-col min-h-screen ${state.isDarkMode ? 'dark' : ''}`}> 
         <Routes>
-          
-          {/* Dashboard مع Navbar */}
+          {/* ... بقية الـ Routes ... */}
           <Route
             path="/"
             element={
@@ -45,7 +50,16 @@ function App() {
               </div>
             }
           />
-          {/* TasksPage بدون Navbar */}
+          <Route
+            path="/add-task"
+            element={
+              <div className="flex flex-col flex-1">
+                <Navbar />
+                <AddTask />
+              </div>
+            }
+          />
+
           <Route
             path="/tasks/:projectId"
             element={
@@ -55,7 +69,6 @@ function App() {
             }
           />
         </Routes>
-        {/* Footer يظل ثابت أسفل الصفحة */}
         <Footer />
       </div>
     </Router>
