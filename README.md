@@ -1,18 +1,122 @@
-# React + Vite
+React Final Project
+Task Management Dashboard (Mini Trello)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Using React (Vite) & Tailwind CSS
 
-Currently, two official plugins are available:
+🔹 Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is a Task Management Dashboard inspired by Trello and Asana.
+It is a Single Page Application (SPA) built using React, allowing users to manage projects and tasks.
 
-## React Compiler
+Projects and tasks are initially fetched from a public API, while adding, deleting, and updating tasks and projects are handled locally using React state.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+🔹 Main Features
+1️⃣ Dashboard – Projects List Page (/)
 
-Note: This will impact Vite dev & build performances.
+Display list of projects fetched from API.
 
-## Expanding the ESLint configuration
+Each project is displayed in a ProjectCard.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+ProjectCard includes:
+
+Project title
+
+Short description
+
+Number of tasks
+
+“View Tasks” button
+
+Button to navigate to Add Project Page.
+
+2️⃣ Project Tasks Page (/project/:id)
+
+Display selected project title.
+
+Show three task columns:
+
+To Do
+
+In Progress
+
+Done
+
+Each task is displayed in a TaskCard containing:
+
+Task title
+
+Task description
+
+Task actions (move between columns, delete)
+
+Users can:
+
+Move tasks between columns (by press moving button or using dtag and drop).
+
+Delete tasks.
+
+Button to navigate to Add Task Page.
+
+3️⃣ Add Task Page (/add-task)
+
+Form fields:
+
+Task Title
+
+Task Description
+
+Select Project
+
+Select Status (To Do, In Progress, Done)
+
+On submit:
+
+Task is added to local state.
+
+User is redirected to the selected project page.
+
+4️⃣ Add Project Page (/add-project)
+
+Form fields:
+
+Project Title
+
+Project Description
+
+On submit:
+
+Project is added to local state.
+
+User is redirected to the Dashboard.
+
+🔹 API 
+
+We used MockAPI.io is used to simulate backend data.
+
+رابعًا: Team Roles (حسب شغلكم الحقيقي)
+👩‍💻 Team Members & Contributions
+
+ندى
+
+Implemented the main Dashboard layout and Projects List page.("Eng/ Anda")
+
+داليا
+
+Implemented the Project Tasks page with three columns (To Do, In Progress, Done) and Implemented task movement .("Eng/ Dalia Atef")
+
+Designed and implemented the Mock API structure, Created the Add Project page and Implemented local project storage. .("Eng/ Rola")
+
+Created the Add Task page and Implemented local project storage for it.("Eng/ Rahma")
+
+Implemented local task storage and linking tasks to projects.
+
+
+We Make a Bonus Features:-
+
+🔍 Search tasks inside project page
+
+🌙 Dark mode
+
+🧲 Drag & Drop tasks
+
+💾 Save data to LocalStorage
