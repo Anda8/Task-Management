@@ -15,12 +15,17 @@ function App() {
 
   if (state.loading) {
     // أنماط الوضع الداكن لصفحة التحميل
-    return <div className={`p-8 text-center flex items-center justify-center min-h-screen  ${state.isDarkMode ? 'bg-gray-900 text-white' : 'bg-purple-50'}`}>Loading...</div>;
+    return <div className={`p-8 text-center flex items-center justify-center min-h-screen  `}>Loading...</div>;
+  
   }
   if (state.error) {
     // أنماط الوضع الداكن لصفحة الخطأ
     return (
-      <div className={`p-8 text-center text-red-600 ${state.isDarkMode ? 'bg-gray-900' : 'bg-purple-50'}`}>
+      <div
+        className={`p-8 text-center text-red-600 ${
+          state.isDarkMode ? "bg-gray-900" : "bg-purple-50"
+        }`}
+      >
         Error: {state.error}
       </div>
     );
@@ -29,7 +34,11 @@ function App() {
   // 💡 التعديل: إضافة الكلاس dark بناءً على حالة isDarkMode
   return (
     <Router>
-      <div className={`flex flex-col min-h-screen ${state.isDarkMode ? 'dark' : ''}`}> 
+      <div
+        className={`flex flex-col min-h-screen ${
+          state.isDarkMode ? "dark" : ""
+        }`}
+      >
         <Routes>
           {/* ... بقية الـ Routes ... */}
           <Route
