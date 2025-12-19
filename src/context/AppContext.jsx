@@ -53,25 +53,31 @@ function reducer(state, action) {
       const apiProjects = action.payload.projects;
       const apiTasks = action.payload.tasks;
 
-      const apiProjectIds = new Set(apiProjects.map((p) => p.id));
-      const apiTaskIds = new Set(apiTasks.map((t) => t.id));
+      // جلب أي بيانات محفوظة من localStorage
+      const saved = loadInitialLocalData();
 
-      // الحفاظ على العناصر المضافة محلياً فقط التي لا تتعارض مع الـ API
-      const newLocalProjects = state.projects.filter(
-        (localP) => !apiProjectIds.has(localP.id)
-      );
-      const newLocalTasks = state.tasks.filter(
-        (localT) => !apiTaskIds.has(localT.id)
-      );
+      // دمج المشاريع مع المحافظة على أي تعديل محلي
+      const mergedProjects = [
+        ...apiProjects.filter(
+          (p) => !saved.projects.some((sp) => sp.id === p.id)
+        ),
+        ...saved.projects,
+      ];
+
+      const mergedTasks = [
+        ...apiTasks.filter((t) => !saved.tasks.some((st) => st.id === t.id)),
+        ...saved.tasks,
+      ];
 
       return {
         ...state,
-        projects: [...apiProjects, ...newLocalProjects],
-        tasks: [...apiTasks, ...newLocalTasks],
+        projects: mergedProjects,
+        tasks: mergedTasks,
         loading: false,
         error: null,
       };
     }
+
     case "ADD_PROJECT":
       // تحويل الـ ID إلى String للتوافق مع Drag&Drop (بما أننا نستخدم Date.now() في AddProject.jsx)
       const newProj = { ...action.payload, id: String(action.payload.id) };
