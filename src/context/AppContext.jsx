@@ -158,13 +158,11 @@ export const AppProvider = ({ children, baseUrl }) => {
 
   // 2. حفظ حالة المشاريع والمهام في LocalStorage
   useEffect(() => {
-    if (state.loading === false && !state.error) {
-      localStorage.setItem(
-        "taskapp_state_v1",
-        JSON.stringify({ projects: state.projects, tasks: state.tasks })
-      );
-    }
-  }, [state.projects, state.tasks, state.loading, state.error]);
+    localStorage.setItem(
+      "taskapp_state_v1",
+      JSON.stringify({ projects: state.projects, tasks: state.tasks })
+    );
+  }, [state.projects, state.tasks]);
 
   // 3. حفظ حالة الوضع الداكن في LocalStorage
   useEffect(() => {
