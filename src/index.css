@@ -16,10 +16,20 @@
   margin: 0;
   box-sizing: border-box;
 }
+body.light {
+  background-color: #faf5ff; /* bg-purple-50 */
+  color: #000;
+}
+
+body.dark {
+  background-color: #111827; /* bg-gray-900 */
+  color: #fff;
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+
 
 button:focus,
 button:focus-visible {

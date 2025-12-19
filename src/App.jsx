@@ -15,7 +15,7 @@ function App() {
 
   if (state.loading) {
     // أنماط الوضع الداكن لصفحة التحميل
-    return <div className={`p-8 text-center ${state.isDarkMode ? 'bg-gray-900 text-white' : 'bg-purple-50'}`}>Loading...</div>;
+    return <div className={`p-8 text-center flex items-center justify-center min-h-screen  ${state.isDarkMode ? 'bg-gray-900 text-white' : 'bg-purple-50'}`}>Loading...</div>;
   }
   if (state.error) {
     // أنماط الوضع الداكن لصفحة الخطأ

@@ -171,6 +171,9 @@ export const AppProvider = ({ children, baseUrl }) => {
     localStorage.setItem("taskflow_darkmode", JSON.stringify(state.isDarkMode));
   }, [state.isDarkMode]);
 
+  useEffect(() => {
+  document.body.classList.toggle("dark", state.isDarkMode);
+}, [state.isDarkMode]);
 
   const contextValue = {
     state,

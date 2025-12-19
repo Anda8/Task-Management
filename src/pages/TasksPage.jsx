@@ -114,7 +114,7 @@ export default function TasksPage() {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className={`min-w-[300px] w-[300px] p-4 rounded-lg shadow-md border-t-4 ${column.color} 
+                  className={`min-w-[300px] w-[300px] p-4 rounded-lg flex-1   shadow-md border-t-4 ${column.color} 
                     ${state.isDarkMode ? 'bg-gray-800 dark:shadow-lg dark:shadow-gray-700/50' : 'bg-white shadow-xl'}
                     ${column.darkColor}
                   `}
