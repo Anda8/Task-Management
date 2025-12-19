@@ -25,7 +25,7 @@ const Dashboard = () => {
         {projects.map((proj) => {
           // 💡 إصلاح العداد: تحويل proj.id إلى Number للمقارنة
           const projectTasks = tasks.filter(
-            (t) => t.projectId === Number(proj.id) 
+            (t) => t.projectId === Number(proj.id)
           );
           const taskCount = projectTasks.length;
 
