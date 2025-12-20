@@ -21,15 +21,18 @@ const loadInitialLocalData = () => {
       const parsed = JSON.parse(saved);
       const updatedTasks = parsed.tasks.map((task) => ({
         ...task,
-        // مهم: تحويل projectId إلى Number للمقارنة في Dashboard
         projectId: Number(task.projectId),
       }));
-      return { projects: parsed.projects || [], tasks: updatedTasks || [] };
+      return {
+        projects: parsed.projects || [],
+        tasks: updatedTasks || [],
+        deletedTaskIds: parsed.deletedTaskIds || [], // 🔹 جلب IDs المحذوفة
+      };
     }
   } catch (error) {
     console.error("Error loading local storage data:", error);
   }
-  return { projects: [], tasks: [] };
+  return { projects: [], tasks: [], deletedTaskIds: [] };
 };
 
 const initialLocalData = loadInitialLocalData();
@@ -40,6 +43,7 @@ const initialState = {
   loading: true,
   error: null,
   isDarkMode: loadInitialDarkMode(),
+  deletedTaskIds: initialLocalData.deletedTaskIds, // 🔹 خديها من localStorage
 };
 
 function reducer(state, action) {
@@ -53,10 +57,8 @@ function reducer(state, action) {
       const apiProjects = action.payload.projects;
       const apiTasks = action.payload.tasks;
 
-      // جلب أي بيانات محفوظة من localStorage
-      const saved = loadInitialLocalData();
+      const saved = loadInitialLocalData(); // نستخدمه بس للمحلية القديمة
 
-      // دمج المشاريع مع المحافظة على أي تعديل محلي
       const mergedProjects = [
         ...apiProjects.filter(
           (p) => !saved.projects.some((sp) => sp.id === p.id)
@@ -64,8 +66,13 @@ function reducer(state, action) {
         ...saved.projects,
       ];
 
+      // 🔹 merge مع تجاهل المحذوفة runtime من state فقط
       const mergedTasks = [
-        ...apiTasks.filter((t) => !saved.tasks.some((st) => st.id === t.id)),
+        ...apiTasks.filter(
+          (t) =>
+            !saved.tasks.some((st) => st.id === t.id) &&
+            !state.deletedTaskIds.includes(t.id)
+        ),
         ...saved.tasks,
       ];
 
@@ -99,6 +106,7 @@ function reducer(state, action) {
       return {
         ...state,
         tasks: state.tasks.filter((t) => t.id !== action.payload),
+        deletedTaskIds: [...state.deletedTaskIds, action.payload], // 🔹 حفظ الـ ID
       };
 
     case "TOGGLE_DARK_MODE":
@@ -166,15 +174,18 @@ export const AppProvider = ({ children, baseUrl }) => {
   useEffect(() => {
     localStorage.setItem(
       "taskapp_state_v1",
-      JSON.stringify({ projects: state.projects, tasks: state.tasks })
+      JSON.stringify({
+        projects: state.projects,
+        tasks: state.tasks,
+        deletedTaskIds: state.deletedTaskIds, // 🔹 حفظ IDs المحذوفة
+      })
     );
-  }, [state.projects, state.tasks]);
+  }, [state.projects, state.tasks, state.deletedTaskIds]);
 
   // 3. حفظ حالة الوضع الداكن في LocalStorage
   useEffect(() => {
     localStorage.setItem("taskflow_darkmode", JSON.stringify(state.isDarkMode));
   }, [state.isDarkMode]);
-
 
   const contextValue = {
     state,
